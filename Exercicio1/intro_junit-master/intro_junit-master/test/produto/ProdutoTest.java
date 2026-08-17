@@ -19,7 +19,7 @@ public class ProdutoTest {
 	
 	@BeforeEach
 	public void inicializa() {
-		livro = new Produto("Introdu��o ao Teste de Software", 100.00);
+		livro = new Produto("Introducao ao Teste de Software", 100.00);
 	}
 	
 	@Test
@@ -33,7 +33,6 @@ public class ProdutoTest {
 
     @Test
     public void testSetPreco() {
-        // Testa se a alteração do preço reflete no objeto
         livro.setPreco(150.0);
         assertThat(livro.getPreco(), equalTo(150.0));
     }
