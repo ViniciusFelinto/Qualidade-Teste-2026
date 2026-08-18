@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class JokenpoTest {
+public class JokempoTest {
 
     private Jokenpo jokenpo;
 

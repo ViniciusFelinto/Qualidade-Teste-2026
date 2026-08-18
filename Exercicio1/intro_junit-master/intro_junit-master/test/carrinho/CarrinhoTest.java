@@ -5,7 +5,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 import produto.Produto;
 import produto.ProdutoNaoEncontradoException;
@@ -13,19 +12,17 @@ import produto.ProdutoNaoEncontradoException;
 public class CarrinhoTest {
 
     private Carrinho carrinho;
-    private Produto produtoMock1;
-    private Produto produtoMock2;
+    private Produto produto1;
+    private Produto produto2;
 
     @BeforeEach
     void setUp() {
+        // O carrinho precisa ser instanciado antes de cada teste
         carrinho = new Carrinho();
         
-        // Criando Mocks de Produto para isolar os testes do Carrinho
-        produtoMock1 = mock(Produto.class);
-        when(produtoMock1.getPreco()).thenReturn(10.0);
-        
-        produtoMock2 = mock(Produto.class);
-        when(produtoMock2.getPreco()).thenReturn(20.5);
+        // Instanciando os produtos reais
+        produto1 = new Produto("Livro", 2.50);
+        produto2 = new Produto("Relogio", 200.50);
     }
 
     @Test
@@ -33,10 +30,11 @@ public class CarrinhoTest {
     void testGetValorTotal() {
         assertEquals(0.0, carrinho.getValorTotal(), 0.001);
         
-        carrinho.addItem(produtoMock1);
-        carrinho.addItem(produtoMock2);
+        carrinho.addItem(produto1);
+        carrinho.addItem(produto2);
         
-        assertEquals(30.5, carrinho.getValorTotal(), 0.001);
+        // Ajustado para a soma correta: 2.50 + 200.50 = 203.0
+        assertEquals(203.0, carrinho.getValorTotal(), 0.001);
     }
 
     @Test
@@ -44,18 +42,18 @@ public class CarrinhoTest {
     void testAddEGetQtdeItems() {
         assertEquals(0, carrinho.getQtdeItems());
         
-        carrinho.addItem(produtoMock1);
+        carrinho.addItem(produto1);
         assertEquals(1, carrinho.getQtdeItems());
         
-        carrinho.addItem(produtoMock2);
+        carrinho.addItem(produto2);
         assertEquals(2, carrinho.getQtdeItems());
     }
 
     @Test
     @DisplayName("Deve remover um item existente do carrinho")
     void testRemoveItemExistente() throws ProdutoNaoEncontradoException {
-        carrinho.addItem(produtoMock1);
-        carrinho.removeItem(produtoMock1);
+        carrinho.addItem(produto1);
+        carrinho.removeItem(produto1);
         
         assertEquals(0, carrinho.getQtdeItems());
     }
@@ -63,14 +61,14 @@ public class CarrinhoTest {
     @Test
     @DisplayName("Deve lançar ProdutoNaoEncontradoException ao tentar remover item inexistente")
     void testRemoveItemInexistente() {
-        assertThrows(ProdutoNaoEncontradoException.class, () -> carrinho.removeItem(produtoMock1));
+        assertThrows(ProdutoNaoEncontradoException.class, () -> carrinho.removeItem(produto1));
     }
 
     @Test
     @DisplayName("Deve esvaziar completamente o carrinho")
     void testEsvazia() {
-        carrinho.addItem(produtoMock1);
-        carrinho.addItem(produtoMock2);
+        carrinho.addItem(produto1);
+        carrinho.addItem(produto2);
         
         carrinho.esvazia();
         
